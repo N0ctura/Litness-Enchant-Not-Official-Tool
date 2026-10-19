@@ -1,79 +1,914 @@
 {
   "schemaVersion": 1,
   "items": [
-    { "id": "helmet", "name": "Elmo", "group": "Armature", "texture": "diamond_helmet", "emoji": "🪖" },
-    { "id": "chest", "name": "Corazza", "group": "Armature", "texture": "diamond_chestplate", "emoji": "🥋" },
-    { "id": "legs", "name": "Gambali", "group": "Armature", "texture": "diamond_leggings", "emoji": "👖" },
-    { "id": "boots", "name": "Stivali", "group": "Armature", "texture": "diamond_boots", "emoji": "🥾" },
-    { "id": "sword", "name": "Spada", "group": "Armi", "texture": "diamond_sword", "emoji": "🗡️" },
-    { "id": "axe", "name": "Ascia", "group": "Armi", "texture": "diamond_axe", "emoji": "🪓" },
-    { "id": "mace", "name": "Mazza", "group": "Armi", "texture": "mace", "emoji": "🔨" },
-    { "id": "trident", "name": "Tridente", "group": "Armi", "texture": "trident", "emoji": "🔱" },
-    { "id": "bow", "name": "Arco", "group": "Armi", "texture": "bow", "emoji": "🏹" },
-    { "id": "xbow", "name": "Balestra", "group": "Armi", "texture": "crossbow_standby", "emoji": "🎯" },
-    { "id": "pick", "name": "Piccone", "group": "Attrezzi", "texture": "diamond_pickaxe", "emoji": "⛏️" },
-    { "id": "shovel", "name": "Pala", "group": "Attrezzi", "texture": "diamond_shovel", "emoji": "🥄" },
-    { "id": "hoe", "name": "Zappa", "group": "Attrezzi", "texture": "diamond_hoe", "emoji": "🌾" },
-    { "id": "rod", "name": "Canna da pesca", "group": "Attrezzi", "texture": "fishing_rod", "emoji": "🎣" },
-    { "id": "shears", "name": "Cesoie", "group": "Attrezzi", "texture": "shears", "emoji": "✂️" },
-    { "id": "flint", "name": "Acciarino", "group": "Attrezzi", "texture": "flint_and_steel", "emoji": "🔥" },
-    { "id": "elytra", "name": "Elitre", "group": "Altro", "texture": "elytra", "emoji": "🦋" },
-    { "id": "shield", "name": "Scudo", "group": "Altro", "texture": null, "emoji": "🛡️" },
-    { "id": "book", "name": "Libro incantato", "group": "Altro", "texture": "enchanted_book", "emoji": "📖" }
+    {
+      "id": "helmet",
+      "name": "Elmo",
+      "group": "Armature",
+      "texture": "diamond_helmet",
+      "emoji": "\ud83e\ude96"
+    },
+    {
+      "id": "chest",
+      "name": "Corazza",
+      "group": "Armature",
+      "texture": "diamond_chestplate",
+      "emoji": "\ud83e\udd4b"
+    },
+    {
+      "id": "legs",
+      "name": "Gambali",
+      "group": "Armature",
+      "texture": "diamond_leggings",
+      "emoji": "\ud83d\udc56"
+    },
+    {
+      "id": "boots",
+      "name": "Stivali",
+      "group": "Armature",
+      "texture": "diamond_boots",
+      "emoji": "\ud83e\udd7e"
+    },
+    {
+      "id": "sword",
+      "name": "Spada",
+      "group": "Armi",
+      "texture": "diamond_sword",
+      "emoji": "\ud83d\udde1\ufe0f"
+    },
+    {
+      "id": "axe",
+      "name": "Ascia",
+      "group": "Armi",
+      "texture": "diamond_axe",
+      "emoji": "\ud83e\ude93"
+    },
+    {
+      "id": "mace",
+      "name": "Mazza",
+      "group": "Armi",
+      "texture": "mace",
+      "emoji": "\ud83d\udd28"
+    },
+    {
+      "id": "trident",
+      "name": "Tridente",
+      "group": "Armi",
+      "texture": "trident",
+      "emoji": "\ud83d\udd31"
+    },
+    {
+      "id": "bow",
+      "name": "Arco",
+      "group": "Armi",
+      "texture": "bow",
+      "emoji": "\ud83c\udff9"
+    },
+    {
+      "id": "xbow",
+      "name": "Balestra",
+      "group": "Armi",
+      "texture": "crossbow_standby",
+      "emoji": "\ud83c\udfaf"
+    },
+    {
+      "id": "pick",
+      "name": "Piccone",
+      "group": "Attrezzi",
+      "texture": "diamond_pickaxe",
+      "emoji": "\u26cf\ufe0f"
+    },
+    {
+      "id": "shovel",
+      "name": "Pala",
+      "group": "Attrezzi",
+      "texture": "diamond_shovel",
+      "emoji": "\ud83e\udd44"
+    },
+    {
+      "id": "hoe",
+      "name": "Zappa",
+      "group": "Attrezzi",
+      "texture": "diamond_hoe",
+      "emoji": "\ud83c\udf3e"
+    },
+    {
+      "id": "rod",
+      "name": "Canna da pesca",
+      "group": "Attrezzi",
+      "texture": "fishing_rod",
+      "emoji": "\ud83c\udfa3"
+    },
+    {
+      "id": "shears",
+      "name": "Cesoie",
+      "group": "Attrezzi",
+      "texture": "shears",
+      "emoji": "\u2702\ufe0f"
+    },
+    {
+      "id": "flint",
+      "name": "Acciarino",
+      "group": "Attrezzi",
+      "texture": "flint_and_steel",
+      "emoji": "\ud83d\udd25"
+    },
+    {
+      "id": "elytra",
+      "name": "Elitre",
+      "group": "Altro",
+      "texture": "elytra",
+      "emoji": "\ud83e\udd8b"
+    },
+    {
+      "id": "shield",
+      "name": "Scudo",
+      "group": "Altro",
+      "texture": null,
+      "emoji": "\ud83d\udee1\ufe0f"
+    },
+    {
+      "id": "book",
+      "name": "Libro incantato",
+      "group": "Altro",
+      "texture": "enchanted_book",
+      "emoji": "\ud83d\udcd6"
+    }
   ],
   "enchantments": [
-    { "id": "protection", "name": "Protezione", "category": "vanilla", "description": "Riduce la maggior parte dei danni.", "maxLevel": 4, "applicableTo": ["helmet", "chest", "legs", "boots"], "targetScope": "armor_set", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "fire-protection", "name": "Protezione dal fuoco", "category": "vanilla", "description": "Riduce i danni da fuoco e lava.", "maxLevel": 4, "applicableTo": ["helmet", "chest", "legs", "boots"], "targetScope": "armor_set", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "blast-protection", "name": "Protezione dalle esplosioni", "category": "vanilla", "description": "Riduce danni e contraccolpo delle esplosioni.", "maxLevel": 4, "applicableTo": ["helmet", "chest", "legs", "boots"], "targetScope": "armor_set", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "projectile-protection", "name": "Protezione dai proiettili", "category": "vanilla", "description": "Riduce i danni da frecce e proiettili.", "maxLevel": 4, "applicableTo": ["helmet", "chest", "legs", "boots"], "targetScope": "armor_set", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "thorns", "name": "Spine", "category": "vanilla", "description": "Restituisce danni a chi ti colpisce.", "maxLevel": 3, "applicableTo": ["helmet", "chest", "legs", "boots"], "targetScope": "armor_set", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "respiration", "name": "Respirazione", "category": "vanilla", "description": "Allunga il tempo sott’acqua.", "maxLevel": 3, "applicableTo": ["helmet"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "aqua-affinity", "name": "Affinità acquatica", "category": "vanilla", "description": "Scavi più veloce sott’acqua.", "maxLevel": 1, "applicableTo": ["helmet"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "feather-falling", "name": "Caduta morbida", "category": "vanilla", "description": "Riduce i danni da caduta.", "maxLevel": 4, "applicableTo": ["boots"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "depth-strider", "name": "Agilità sott’acqua", "category": "vanilla", "description": "Ti muovi più veloce sott’acqua.", "maxLevel": 3, "applicableTo": ["boots"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "frost-walker", "ame": "Passo di gelo", "category": "vanilla", "description": "Trasforma l’acqua sotto i piedi in ghiaccio.", "maxLevel": 2, "applicableTo": ["boots"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "soul-speed", "name": "Rapidità delle anime", "category": "vanilla", "description": "Corri più veloce su sabbia e terra delle anime.", "maxLevel": 3, "applicableTo": ["boots"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "swift-sneak", "name": "Furtività rapida", "category": "vanilla", "description": "Ti muovi più veloce mentre sei accovacciato.", "maxLevel": 3, "applicableTo": ["legs"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "binding-curse", "name": "Maledizione del legame", "category": "vanilla", "description": "L’oggetto non si può togliere.", "maxLevel": 1, "applicableTo": ["helmet", "chest", "legs", "boots", "elytra"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "sharpness", "name": "Affilatura", "category": "vanilla", "description": "Più danni a tutti i mob.", "maxLevel": 5, "applicableTo": ["sword", "axe"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "smite", "name": "Anatema", "category": "vanilla", "description": "Più danni ai non morti.", "maxLevel": 5, "applicableTo": ["sword", "axe", "mace"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "bane-of-arthropods", "name": "Flagello degli artropodi", "category": "vanilla", "description": "Più danni agli artropodi, con lentezza.", "maxLevel": 5, "applicableTo": ["sword", "axe", "mace"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "knockback", "name": "Contraccolpo", "category": "vanilla", "description": "Respinge i nemici più lontano.", "maxLevel": 2, "applicableTo": ["sword"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "fire-aspect", "name": "Aspetto di fuoco", "category": "vanilla", "description": "Dà fuoco ai nemici colpiti.", "maxLevel": 2, "applicableTo": ["sword", "mace"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "looting", "name": "Saccheggio", "category": "vanilla", "description": "Più bottino dai mob.", "maxLevel": 3, "applicableTo": ["sword"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "sweeping-edge", "name": "Spazzata", "category": "vanilla", "description": "Aumenta i danni dell’attacco a spazzata.", "maxLevel": 3, "applicableTo": ["sword"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "density", "name": "Densità", "category": "vanilla", "description": "Più danni in base all’altezza di caduta.", "maxLevel": 5, "applicableTo": ["mace"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "breach", "name": "Breccia", "category": "vanilla", "description": "Ignora parte dell’armatura del bersaglio.", "maxLevel": 4, "applicableTo": ["mace"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "wind-burst", "name": "Impatto del vento", "category": "vanilla", "description": "Ti lancia in aria dopo un colpo in picchiata.", "maxLevel": 3, "applicableTo": ["mace"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "loyalty", "name": "Lealtà", "category": "vanilla", "description": "Il tridente ti ritorna in mano.", "maxLevel": 3, "applicableTo": ["trident"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "riptide", "name": "Impeto", "category": "vanilla", "description": "Ti lancia in avanti sotto la pioggia o in acqua.", "maxLevel": 3, "applicableTo": ["trident"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "channeling", "name": "Canalizzazione", "category": "vanilla", "description": "Evoca fulmini durante i temporali.", "maxLevel": 1, "applicableTo": ["trident"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "impaling", "name": "Impalamento", "category": "vanilla", "description": "Più danni ai mob acquatici.", "maxLevel": 5, "applicableTo": ["trident"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "power", "name": "Potenza", "category": "vanilla", "description": "Aumenta i danni delle frecce.", "maxLevel": 5, "applicableTo": ["bow"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "punch", "name": "Contraccolpo dell’arco", "category": "vanilla", "description": "Le frecce respingono il bersaglio.", "maxLevel": 2, "applicableTo": ["bow"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "flame", "name": "Fiamma", "category": "vanilla", "description": "Le frecce incendiano il bersaglio.", "maxLevel": 1, "applicableTo": ["bow"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "infinity", "name": "Infinità", "category": "vanilla", "description": "Tira senza consumare frecce.", "maxLevel": 1, "applicableTo": ["bow"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "multishot", "name": "Multitiro", "category": "vanilla", "description": "Scocca tre proiettili insieme.", "maxLevel": 1, "applicableTo": ["xbow"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "piercing", "name": "Perforazione", "category": "vanilla", "description": "I proiettili attraversano i nemici.", "maxLevel": 4, "applicableTo": ["xbow"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "quick-charge", "name": "Ricarica rapida", "category": "vanilla", "description": "Ricarichi più in fretta.", "maxLevel": 3, "applicableTo": ["xbow"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "efficiency", "name": "Efficienza", "category": "vanilla", "description": "Estrai più velocemente.", "maxLevel": 5, "applicableTo": ["pick", "shovel", "hoe", "axe", "shears"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "silk-touch", "name": "Tocco di seta", "category": "vanilla", "description": "Raccogli i blocchi così come sono.", "maxLevel": 1, "applicableTo": ["pick", "shovel", "hoe", "axe", "shears"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "fortune", "name": "Fortuna", "category": "vanilla", "description": "Più drop da minerali e colture.", "maxLevel": 3, "applicableTo": ["pick", "shovel", "hoe", "axe"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "luck-of-the-sea", "nname": "Fortuna del mare", "category": "vanilla", "description": "Più possibilità di pescare tesori.", "maxLevel": 3, "applicableTo": ["rod"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "lure", "name": "Esca", "category": "vanilla", "description": "I pesci abboccano più in fretta.", "maxLevel": 3, "applicableTo": ["rod"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "unbreaking", "name": "Integrità", "category": "vanilla", "description": "L’oggetto dura più a lungo.", "maxLevel": 3, "applicableTo": ["helmet", "chest", "legs", "boots", "pick", "shovel", "hoe", "axe", "sword", "mace", "trident", "bow", "xbow", "rod", "shears", "flint", "elytra", "shield", "book"], "targetScope": "all_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "mending", "name": "Rammendo", "category": "vanilla", "description": "Ripara l’oggetto con l’esperienza raccolta.", "maxLevel": 1, "applicableTo": ["helmet", "chest", "legs", "boots", "pick", "shovel", "hoe", "axe", "sword", "mace", "trident", "bow", "xbow", "rod", "shears", "flint", "elytra", "shield", "book"], "targetScope": "all_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "vanishing-curse", "name": "Maledizione della scomparsa", "category": "vanilla", "description": "L’oggetto sparisce alla morte.", "maxLevel": 1, "applicableTo": ["helmet", "chest", "legs", "boots", "sword", "axe", "mace", "trident", "bow", "xbow", "pick", "shovel", "hoe", "rod", "shears", "flint", "elytra", "shield", "book"], "targetScope": "all_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Costo non ancora configurato." } },
-    { "id": "vampirism", "name": "Vampirismo", "category": "custom", "description": "Recuperi vita in base al danno inflitto.", "maxLevel": 3, "applicableTo": ["sword", "axe"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "telekinesis", "name": "Telecinesi", "category": "custom", "description": "I drop vanno direttamente nell’inventario.", "maxLevel": 1, "applicableTo": ["pick", "shovel", "hoe", "axe", "sword"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "extractor", "name": "Estrattore", "category": "custom", "description": "Scava interi filoni di minerale in un colpo.", "maxLevel": 3, "applicableTo": ["pick"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "lumberjack", "name": "Taglialegna", "category": "custom", "description": "Abbatte l’intero albero.", "maxLevel": 2, "applicableTo": ["axe"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "fire-trail", "name": "Scia infuocata", "category": "custom", "description": "Lasci una scia di fuoco dietro di te.", "maxLevel": 2, "applicableTo": ["boots"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "glide", "name": "Planata", "category": "custom", "description": "Più controllo e meno consumo in volo.", "maxLevel": 3, "applicableTo": ["elytra"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "rebound", "name": "Rimbalzo", "category": "custom", "description": "Riflette i proiettili verso chi li ha lanciati.", "maxLevel": 2, "applicableTo": ["shield"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "magnet", "name": "Magnete", "category": "custom", "description": "Attira gli oggetti caduti nelle vicinanze.", "maxLevel": 2, "applicableTo": ["pick", "shovel", "axe"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "night-vision", "name": "Visione notturna", "category": "custom", "description": "Vedi al buio mentre lo indossi.", "maxLevel": 1, "applicableTo": ["helmet"], "targetScope": "specific_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "arrow-explosion", "name": "Esplosione di frecce", "category": "custom", "description": "Le frecce esplodono all’impatto.", "maxLevel": 2, "applicableTo": ["bow", "xbow"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } },
-    { "id": "dash", "name": "Scatto", "category": "custom", "description": "Breve scatto in avanti con la corsa.", "maxLevel": 3, "applicableTo": ["legs", "boots"], "targetScope": "multiple_items", "anvilCost": { "levels": null, "status": "unknown", "notes": "Esempio: inserisci il costo in livelli quando sarà deciso." } }
-  ]
+    {
+      "id": "aqua_affinity",
+      "name": "Affinit\u00e0 all'acqua",
+      "category": "vanilla",
+      "description": "Aumenta la velocit\u00e0 di estrazione sott'acqua.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "helmet",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "bane_of_arthropods",
+      "name": "Flagello degli artropodi",
+      "category": "vanilla",
+      "description": "Aumenta i danni contro gli artropodi e applica loro lentezza.",
+      "maxLevel": 5,
+      "applicableTo": [
+        "sword",
+        "axe",
+        "mace",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "binding_curse",
+      "name": "Maledizione del legame",
+      "category": "vanilla",
+      "description": "Impedisce di rimuovere l'oggetto equipaggiato, salvo morte o rottura.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "elytra",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "blast_protection",
+      "name": "Protezione dalle esplosioni",
+      "category": "vanilla",
+      "description": "Riduce i danni e il contraccolpo causati dalle esplosioni.",
+      "maxLevel": 4,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "book"
+      ],
+      "targetScope": "armor_set",
+      "anvilCost": "?"
+    },
+    {
+      "id": "breach",
+      "name": "Breccia",
+      "category": "vanilla",
+      "description": "Riduce l'efficacia dell'armatura del bersaglio.",
+      "maxLevel": 4,
+      "applicableTo": [
+        "mace",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "channeling",
+      "name": "Canalizzazione",
+      "category": "vanilla",
+      "description": "Durante un temporale, evoca un fulmine sul bersaglio colpito.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "trident",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "density",
+      "name": "Densit\u00e0",
+      "category": "vanilla",
+      "description": "Aumenta i danni da schianto in base alla distanza di caduta.",
+      "maxLevel": 5,
+      "applicableTo": [
+        "mace",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "depth_strider",
+      "name": "Passo anfibio",
+      "category": "vanilla",
+      "description": "Aumenta la velocit\u00e0 di movimento sott'acqua.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "boots",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "efficiency",
+      "name": "Efficienza",
+      "category": "vanilla",
+      "description": "Aumenta la velocit\u00e0 di estrazione e di alcune azioni degli attrezzi.",
+      "maxLevel": 5,
+      "applicableTo": [
+        "pick",
+        "shovel",
+        "hoe",
+        "axe",
+        "shears",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "feather_falling",
+      "name": "Atterraggio morbido",
+      "category": "vanilla",
+      "description": "Riduce i danni da caduta.",
+      "maxLevel": 4,
+      "applicableTo": [
+        "boots",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "fire_aspect",
+      "name": "Aspetto di fuoco",
+      "category": "vanilla",
+      "description": "Incendia i bersagli colpiti.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "sword",
+        "mace",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "fire_protection",
+      "name": "Protezione dal fuoco",
+      "category": "vanilla",
+      "description": "Riduce i danni da fuoco e lava.",
+      "maxLevel": 4,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "book"
+      ],
+      "targetScope": "armor_set",
+      "anvilCost": "?"
+    },
+    {
+      "id": "flame",
+      "name": "Fiamma",
+      "category": "vanilla",
+      "description": "Incendia i bersagli colpiti dalle frecce.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "bow",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "fortune",
+      "name": "Fortuna",
+      "category": "vanilla",
+      "description": "Aumenta la quantit\u00e0 o la probabilit\u00e0 di ottenere drop da certi blocchi.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "pick",
+        "shovel",
+        "hoe",
+        "axe",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "frost_walker",
+      "name": "Passo gelato",
+      "category": "vanilla",
+      "description": "Converte in ghiaccio l'acqua sotto i piedi mentre cammini.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "boots",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "impaling",
+      "name": "Impalamento",
+      "category": "vanilla",
+      "description": "Aumenta i danni inflitti ai mob acquatici.",
+      "maxLevel": 5,
+      "applicableTo": [
+        "trident",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "infinity",
+      "name": "Infinit\u00e0",
+      "category": "vanilla",
+      "description": "Permette di scoccare frecce normali senza consumarle, se ne hai almeno una.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "bow",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "knockback",
+      "name": "Contraccolpo",
+      "category": "vanilla",
+      "description": "Aumenta la distanza a cui vengono respinti i bersagli.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "sword",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "looting",
+      "name": "Saccheggio",
+      "category": "vanilla",
+      "description": "Aumenta il bottino lasciato dai mob.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "sword",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "loyalty",
+      "name": "Lealt\u00e0",
+      "category": "vanilla",
+      "description": "Fa ritornare il tridente dopo il lancio.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "trident",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "luck_of_the_sea",
+      "name": "Fortuna del mare",
+      "category": "vanilla",
+      "description": "Aumenta la probabilit\u00e0 di pescare tesori.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "rod",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "lure",
+      "name": "Esca",
+      "category": "vanilla",
+      "description": "Riduce il tempo necessario perch\u00e9 un pesce abbocchi.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "rod",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "mending",
+      "name": "Ripristino",
+      "category": "vanilla",
+      "description": "Usa i punti esperienza raccolti per riparare l'oggetto.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "pick",
+        "shovel",
+        "hoe",
+        "axe",
+        "sword",
+        "mace",
+        "trident",
+        "bow",
+        "xbow",
+        "rod",
+        "shears",
+        "flint",
+        "elytra",
+        "shield",
+        "book"
+      ],
+      "targetScope": "all_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "multishot",
+      "name": "Tiro multiplo",
+      "category": "vanilla",
+      "description": "Scocca tre proiettili al costo di uno.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "xbow",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "piercing",
+      "name": "Perforazione",
+      "category": "vanilla",
+      "description": "Permette ai dardi della balestra di attraversare pi\u00f9 bersagli.",
+      "maxLevel": 4,
+      "applicableTo": [
+        "xbow",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "power",
+      "name": "Potenza",
+      "category": "vanilla",
+      "description": "Aumenta i danni inflitti dalle frecce.",
+      "maxLevel": 5,
+      "applicableTo": [
+        "bow",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "projectile_protection",
+      "name": "Protezione dai proiettili",
+      "category": "vanilla",
+      "description": "Riduce i danni da proiettili, come frecce e tridenti lanciati.",
+      "maxLevel": 4,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "book"
+      ],
+      "targetScope": "armor_set",
+      "anvilCost": "?"
+    },
+    {
+      "id": "protection",
+      "name": "Protezione",
+      "category": "vanilla",
+      "description": "Riduce la maggior parte dei danni subiti.",
+      "maxLevel": 4,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "book"
+      ],
+      "targetScope": "armor_set",
+      "anvilCost": "?"
+    },
+    {
+      "id": "punch",
+      "name": "Impatto",
+      "category": "vanilla",
+      "description": "Aumenta il contraccolpo inflitto dalle frecce.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "bow",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "quick_charge",
+      "name": "Carica rapida",
+      "category": "vanilla",
+      "description": "Riduce il tempo di ricarica della balestra.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "xbow",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "respiration",
+      "name": "Respirazione",
+      "category": "vanilla",
+      "description": "Aumenta il tempo che puoi trascorrere sott'acqua prima di annegare.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "helmet",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "riptide",
+      "name": "Risacca",
+      "category": "vanilla",
+      "description": "Ti spinge in avanti quando lanci il tridente in acqua o sotto la pioggia.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "trident",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "sharpness",
+      "name": "Affilatezza",
+      "category": "vanilla",
+      "description": "Aumenta i danni inflitti in mischia.",
+      "maxLevel": 5,
+      "applicableTo": [
+        "sword",
+        "axe",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "silk_touch",
+      "name": "Tocco di velluto",
+      "category": "vanilla",
+      "description": "Fa cadere alcuni blocchi esattamente come sono.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "pick",
+        "shovel",
+        "hoe",
+        "axe",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "smite",
+      "name": "Anatema",
+      "category": "vanilla",
+      "description": "Aumenta i danni inflitti ai non morti.",
+      "maxLevel": 5,
+      "applicableTo": [
+        "sword",
+        "axe",
+        "mace",
+        "book"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "soul_speed",
+      "name": "Velocit\u00e0 delle anime",
+      "category": "vanilla",
+      "description": "Aumenta la velocit\u00e0 di movimento sulla sabbia e sul terreno delle anime.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "boots",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "sweeping_edge",
+      "name": "Lama sferzante",
+      "category": "vanilla",
+      "description": "Aumenta i danni inflitti dagli attacchi ad area della spada.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "sword",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "swift_sneak",
+      "name": "Passo felpato",
+      "category": "vanilla",
+      "description": "Aumenta la velocit\u00e0 di movimento mentre sei accovacciato.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "legs",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "thorns",
+      "name": "Spine",
+      "category": "vanilla",
+      "description": "Pu\u00f2 infliggere danni a chi ti attacca.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "book"
+      ],
+      "targetScope": "armor_set",
+      "anvilCost": "?"
+    },
+    {
+      "id": "unbreaking",
+      "name": "Indistruttibilit\u00e0",
+      "category": "vanilla",
+      "description": "Riduce la probabilit\u00e0 che l'oggetto perda durabilit\u00e0 quando viene usato.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "pick",
+        "shovel",
+        "hoe",
+        "axe",
+        "sword",
+        "mace",
+        "trident",
+        "bow",
+        "xbow",
+        "rod",
+        "shears",
+        "flint",
+        "elytra",
+        "shield",
+        "book"
+      ],
+      "targetScope": "all_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "vanishing_curse",
+      "name": "Maledizione della scomparsa",
+      "category": "vanilla",
+      "description": "Fa scomparire l'oggetto quando muori.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "helmet",
+        "chest",
+        "legs",
+        "boots",
+        "pick",
+        "shovel",
+        "hoe",
+        "axe",
+        "sword",
+        "mace",
+        "trident",
+        "bow",
+        "xbow",
+        "rod",
+        "shears",
+        "flint",
+        "elytra",
+        "shield",
+        "book"
+      ],
+      "targetScope": "all_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "wind_burst",
+      "name": "Colpo di vento",
+      "category": "vanilla",
+      "description": "Ti lancia in aria quando colpisci un bersaglio con un attacco in caduta.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "mace",
+        "book"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "vampirism",
+      "name": "Vampirismo",
+      "category": "custom",
+      "description": "Recuperi vita in base al danno inflitto.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "sword",
+        "axe"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "telekinesis",
+      "name": "Telecinesi",
+      "category": "custom",
+      "description": "I drop vanno direttamente nell\u2019inventario.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "pick",
+        "shovel",
+        "hoe",
+        "axe",
+        "sword"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "extractor",
+      "name": "Estrattore",
+      "category": "custom",
+      "description": "Scava interi filoni di minerale in un colpo.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "pick"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "lumberjack",
+      "name": "Taglialegna",
+      "category": "custom",
+      "description": "Abbatte l\u2019intero albero.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "axe"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "fire-trail",
+      "name": "Scia infuocata",
+      "category": "custom",
+      "description": "Lasci una scia di fuoco dietro di te.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "boots"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "glide",
+      "name": "Planata",
+      "category": "custom",
+      "description": "Pi\u00f9 controllo e meno consumo in volo.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "elytra"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "rebound",
+      "name": "Rimbalzo",
+      "category": "custom",
+      "description": "Riflette i proiettili verso chi li ha lanciati.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "shield"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "magnet",
+      "name": "Magnete",
+      "category": "custom",
+      "description": "Attira gli oggetti caduti nelle vicinanze.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "pick",
+        "shovel",
+        "axe"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "night-vision",
+      "name": "Visione notturna",
+      "category": "custom",
+      "description": "Vedi al buio mentre lo indossi.",
+      "maxLevel": 1,
+      "applicableTo": [
+        "helmet"
+      ],
+      "targetScope": "specific_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "arrow-explosion",
+      "name": "Esplosione di frecce",
+      "category": "custom",
+      "description": "Le frecce esplodono all\u2019impatto.",
+      "maxLevel": 2,
+      "applicableTo": [
+        "bow",
+        "xbow"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    },
+    {
+      "id": "dash",
+      "name": "Scatto",
+      "category": "custom",
+      "description": "Breve scatto in avanti con la corsa.",
+      "maxLevel": 3,
+      "applicableTo": [
+        "legs",
+        "boots"
+      ],
+      "targetScope": "multiple_items",
+      "anvilCost": "?"
+    }
+  ],
+  "minecraftVersion": "Java Edition 1.21.10"
 }
