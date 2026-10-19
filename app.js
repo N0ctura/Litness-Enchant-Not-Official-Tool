@@ -1,4 +1,4 @@
-const DATA_URL = "data/enchantments.json";
+const DATA_URL = "./data/enchantments.json";
 const TEXTURE_URL = "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.21.10/assets/minecraft/textures/item/";
 const ARMOR_IDS = ["helmet", "chest", "legs", "boots"];
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
@@ -25,7 +25,7 @@ function validateData(data) {
         !Number.isInteger(enchantment.maxLevel) || enchantment.maxLevel < 1 ||
         !Array.isArray(enchantment.applicableTo) || enchantment.applicableTo.length === 0 ||
         !["armor_set", "specific_items", "multiple_items", "all_items"].includes(enchantment.targetScope) ||
-        !enchantment.anvilCost || !["known", "unknown"].includes(enchantment.anvilCost.status)) {
+        typeof enchantment.anvilCost !== "string" || !enchantment.anvilCost.trim()) {
       throw new Error(`Dati mancanti o non validi per l'incantesimo "${enchantment.name || enchantment.id || "senza nome"}".`);
     }
     if (enchantment.applicableTo.some((itemId) => !itemIds.has(itemId))) {
@@ -33,10 +33,6 @@ function validateData(data) {
     }
     if (enchantment.targetScope === "armor_set" && ARMOR_IDS.some((id) => !enchantment.applicableTo.includes(id))) {
       throw new Error(`"${enchantment.name}" è dichiarato per tutta l'armatura ma non elenca tutti e quattro i pezzi.`);
-    }
-    if (enchantment.anvilCost.status === "known" &&
-        (!Number.isFinite(enchantment.anvilCost.levels) || enchantment.anvilCost.levels < 0)) {
-      throw new Error(`Il costo incudine di "${enchantment.name}" deve essere un numero di livelli uguale o maggiore di zero.`);
     }
     enchantmentIds.add(enchantment.id);
   }
@@ -50,19 +46,20 @@ function icon(item, className = "mc") {
 }
 
 function makeAnvilCost(anvilCost) {
-  if (anvilCost.status === "known") {
-    return `Costo incudine: ${anvilCost.levels} ${anvilCost.levels === 1 ? "livello" : "livelli"}`;
-  }
-  return `Costo incudine: da configurare${anvilCost.notes ? ` — ${anvilCost.notes}` : ""}`;
+  return `Costo incudine: ${anvilCost}`;
 }
 
 function makeScopeLabel(enchantment, itemsById) {
-  if (enchantment.targetScope === "armor_set") return "Tutti i pezzi dell’armatura";
-  if (enchantment.targetScope === "all_items") return "Tutti gli oggetti elencati";
-  if (enchantment.targetScope === "specific_items" && enchantment.applicableTo.length === 1) {
-    return `Solo: ${itemsById.get(enchantment.applicableTo[0]).name}`;
+  const includesBook = enchantment.applicableTo.includes("book");
+  const targets = enchantment.applicableTo.filter((id) => id !== "book");
+  if (enchantment.targetScope === "armor_set") {
+    return `Tutti i pezzi dell’armatura${includesBook ? " e libro incantato" : ""}`;
   }
-  return "Più oggetti";
+  if (enchantment.targetScope === "all_items") return "Tutti gli oggetti elencati";
+  if (enchantment.targetScope === "specific_items" && targets.length === 1) {
+    return `Solo: ${itemsById.get(targets[0]).name}${includesBook ? " e libro incantato" : ""}`;
+  }
+  return `Più oggetti${includesBook ? " e libro incantato" : ""}`;
 }
 
 function render(data) {
