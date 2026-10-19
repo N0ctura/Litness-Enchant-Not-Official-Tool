@@ -22,14 +22,11 @@ html { scroll-padding-top: env(safe-area-inset-top, 0); background: var(--dark);
 body { margin: 0; padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0); background: var(--dark); color: var(--title); font: 700 16px/1.5 Nunito, system-ui, sans-serif; }
 h1, h2, h3 { font-family: Fredoka, Nunito, sans-serif; }
 
-.brand-header { display: flex; justify-content: center; align-items: center; padding: 10px 5vw; background: var(--cream); }
-.brand-image { display: block; width: min(902px, 100%); height: auto; }
+.brand-header { display: flex; justify-content: center; align-items: center; padding: 8px 5vw; background: var(--cream); }
+.brand-image { display: block; width: min(700px, 92vw); max-height: 165px; height: auto; object-fit: contain; }
 
-.edge { position: relative; height: 20px; border-top: 2px solid #ead9bd; background: var(--cream); }
-.edge i { position: absolute; bottom: 0; width: 16%; height: 20px; background: var(--dark); }
-.edge i:first-child { left: 8%; }
-.edge i:last-child { left: 46%; width: 17%; }
-.hero { position: relative; overflow: hidden; padding: 44px 5vw 70px; }
+.edge { height: 12px; background: linear-gradient(180deg, var(--cream) 0%, #e8d9c4 35%, var(--dark) 100%); }
+.hero { position: relative; overflow: hidden; padding: 32px 5vw 70px; }
 .sq { position: absolute; pointer-events: none; }
 .square-one { top: 36px; left: 4%; width: 52px; height: 52px; background: var(--brown); }
 .square-two { top: 92px; left: 6.5%; width: 28px; height: 28px; background: var(--gold); }
@@ -67,6 +64,10 @@ h1, h2, h3 { font-family: Fredoka, Nunito, sans-serif; }
 .ench p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 14.5px; font-weight: 600; }
 .details { display: flex; grid-column: 1 / -1; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
 .detail { padding: 4px 8px; border: 2px solid var(--frame); background: var(--panel); color: var(--title); font-size: 12px; font-weight: 800; }
+.rarity { border-color: var(--gold); color: #ffd45c; }
+.custom-meta { display: flex; grid-column: 1 / -1; flex-direction: column; gap: 3px; margin-top: 2px; color: var(--muted); font-size: 13px; }
+.custom-meta strong { color: var(--title); font: inherit; }
+.custom-meta .unique { color: #ffd45c; font-weight: 800; }
 .on { display: flex; grid-column: 1 / -1; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .on i { display: flex; align-items: center; gap: 5px; padding: 2px 8px 2px 4px; border: 2px solid var(--frame); background: var(--panel); font: 800 12px Nunito, sans-serif; font-style: normal; }
 .on .mc, .on .fb { width: 20px; height: 20px; }
@@ -83,7 +84,8 @@ h1, h2, h3 { font-family: Fredoka, Nunito, sans-serif; }
 
 @media (max-width: 480px) {
   .brand-header { padding-right: 4vw; padding-left: 4vw; }
-  .hero { padding-right: 4vw; padding-left: 4vw; }
+  .brand-image { width: min(560px, 92vw); max-height: 132px; }
+  .hero { padding: 26px 4vw 56px; }
   .panel { padding: 14px; }
   .ench { grid-template-columns: 1fr; }
   .lvl { justify-self: start; }

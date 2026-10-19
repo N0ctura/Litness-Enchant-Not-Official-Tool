@@ -25,11 +25,20 @@ function validateData(data) {
         !Number.isInteger(enchantment.maxLevel) || enchantment.maxLevel < 1 ||
         !Array.isArray(enchantment.applicableTo) || enchantment.applicableTo.length === 0 ||
         !["armor_set", "specific_items", "multiple_items", "all_items"].includes(enchantment.targetScope) ||
-        typeof enchantment.anvilCost !== "string" || !enchantment.anvilCost.trim()) {
+        !(typeof enchantment.anvilCost === "string" && enchantment.anvilCost.trim() ||
+          typeof enchantment.anvilCost === "number" && Number.isFinite(enchantment.anvilCost) && enchantment.anvilCost >= 0)) {
       throw new Error(`Dati mancanti o non validi per l'incantesimo "${enchantment.name || enchantment.id || "senza nome"}".`);
     }
     if (enchantment.applicableTo.some((itemId) => !itemIds.has(itemId))) {
       throw new Error(`"${enchantment.name}" fa riferimento a un ID oggetto inesistente.`);
+    }
+    if (enchantment.category === "custom" &&
+        (!enchantment.rarity ||
+         !Array.isArray(enchantment.conflicts) ||
+         !Array.isArray(enchantment.requirements) ||
+         typeof enchantment.unique !== "boolean" ||
+         (enchantment.unique && enchantment.maxPerItem !== 1))) {
+      throw new Error(`Rarità, conflitti, requisiti o limite non validi per "${enchantment.name}".`);
     }
     if (enchantment.targetScope === "armor_set" && ARMOR_IDS.some((id) => !enchantment.applicableTo.includes(id))) {
       throw new Error(`"${enchantment.name}" è dichiarato per tutta l'armatura ma non elenca tutti e quattro i pezzi.`);
@@ -46,20 +55,18 @@ function icon(item, className = "mc") {
 }
 
 function makeAnvilCost(anvilCost) {
-  return `Costo incudine: ${anvilCost}`;
+  return `Costo incudine: ${typeof anvilCost === "number" ? `+${anvilCost} livelli` : anvilCost}`;
 }
 
 function makeScopeLabel(enchantment, itemsById) {
-  const includesBook = enchantment.applicableTo.includes("book");
-  const targets = enchantment.applicableTo.filter((id) => id !== "book");
   if (enchantment.targetScope === "armor_set") {
-    return `Tutti i pezzi dell’armatura${includesBook ? " e libro incantato" : ""}`;
+    return "Tutti i pezzi dell’armatura";
   }
   if (enchantment.targetScope === "all_items") return "Tutti gli oggetti elencati";
-  if (enchantment.targetScope === "specific_items" && targets.length === 1) {
-    return `Solo: ${itemsById.get(targets[0]).name}${includesBook ? " e libro incantato" : ""}`;
+  if (enchantment.targetScope === "specific_items" && enchantment.applicableTo.length === 1) {
+    return `Solo: ${itemsById.get(enchantment.applicableTo[0]).name}`;
   }
-  return `Più oggetti${includesBook ? " e libro incantato" : ""}`;
+  return "Più oggetti";
 }
 
 function render(data) {
@@ -93,7 +100,7 @@ function render(data) {
     const results = data.enchantments.filter((enchantment) =>
       (!selectedItemId || enchantment.applicableTo.includes(selectedItemId)) &&
       (categoryFilter === "all" || enchantment.category === categoryFilter) &&
-      (!query || normalize(`${enchantment.name} ${enchantment.description} ${enchantment.anvilCost.notes || ""}`).includes(query))
+      (!query || normalize(`${enchantment.name} ${enchantment.description} ${enchantment.rarity || ""} ${(enchantment.conflicts || []).join(" ")} ${(enchantment.requirements || []).join(" ")}`).includes(query))
     );
     const selectedItem = selectedItemId ? itemsById.get(selectedItemId) : null;
     $("#h-ench").innerHTML = selectedItem
@@ -107,8 +114,14 @@ function render(data) {
         <p>${escapeHTML(enchantment.description)}</p>
         <div class="details">
           <span class="detail">${escapeHTML(makeScopeLabel(enchantment, itemsById))}</span>
+          ${enchantment.category === "custom" ? `<span class="detail rarity">Rarità: ${escapeHTML(enchantment.rarity)}</span>` : ""}
           <span class="detail">${escapeHTML(makeAnvilCost(enchantment.anvilCost))}</span>
         </div>
+        ${enchantment.category === "custom" ? `<div class="custom-meta">
+          <span><strong>Requisiti:</strong> ${enchantment.requirements.length ? escapeHTML(enchantment.requirements.join(", ")) : "Nessun requisito"}</span>
+          <span><strong>Conflitti:</strong> ${enchantment.conflicts.length ? escapeHTML(enchantment.conflicts.join(", ")) : "Nessun conflitto"}</span>
+          ${enchantment.unique ? `<span class="unique">Unico · max ${enchantment.maxPerItem} per oggetto</span>` : ""}
+        </div>` : ""}
         <div class="on">${enchantment.applicableTo.map((id) => {
           const item = itemsById.get(id);
           return `<i>${icon(item)}${escapeHTML(item.name)}</i>`;
