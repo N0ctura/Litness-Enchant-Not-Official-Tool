@@ -2,9 +2,44 @@ const DATA_URL = "./data/enchantments.json";
 const TEXTURE_URL = "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.21.10/assets/minecraft/textures/item/";
 const ARMOR_IDS = ["helmet", "chest", "legs", "boots"];
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const ANVIL_LIMIT = 40;
+const INCOMPATIBLE_GROUPS = [
+  ["Affilatezza", "Anatema", "Flagello degli artropodi", "Densità", "Breccia"],
+  ["Protezione", "Protezione dal fuoco", "Protezione dalle esplosioni", "Protezione dai proiettili"],
+  ["Fortuna", "Tocco di velluto"],
+  ["Infinità", "Ripristino"],
+  ["Tiro multiplo", "Perforazione"],
+  ["Lealtà", "Risacca"],
+  ["Risacca", "Canalizzazione"],
+  ["Passo anfibio", "Passo gelato"]
+];
+const ENCHANTMENT_ALIASES = {
+  "aqua affinity": "affinità all'acqua",
+  "bane of arthropods": "flagello degli artropodi",
+  "blast protection": "protezione dalle esplosioni",
+  "depth strider": "passo anfibio",
+  "fire aspect": "aspetto di fuoco",
+  "fire protection": "protezione dal fuoco",
+  "fortune": "fortuna",
+  "infinity": "infinità",
+  "looting": "saccheggio",
+  "loyalty": "lealtà",
+  "mending": "ripristino",
+  "multishot": "tiro multiplo",
+  "piercing": "perforazione",
+  "power": "potenza",
+  "projectile protection": "protezione dai proiettili",
+  "punch": "impatto",
+  "riptide": "risacca",
+  "sharpness": "affilatezza",
+  "silk touch": "tocco di velluto",
+  "smite": "anatema",
+  "thorns": "spine"
+};
 
 const $ = (selector) => document.querySelector(selector);
 const normalize = (value) => value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const canonicalEnchantmentName = (name) => ENCHANTMENT_ALIASES[normalize(name)] || normalize(name);
 const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (char) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
 })[char]);
@@ -129,6 +164,140 @@ function render(data) {
       </article>`).join("") : '<div class="empty">Nessun incantesimo trovato.<br>Prova un altro nome o togli un filtro.</div>';
   }
 
+  const loadout = ARMOR_IDS.map((itemId, index) => ({ key: `slot-${index}`, itemId, enchantments: [] }));
+  let nextSlotId = loadout.length;
+
+  $("#loadout-item-select").innerHTML = [...groups].map(([groupName, items]) =>
+    `<optgroup label="${escapeHTML(groupName)}">${items.map((item) =>
+      `<option value="${escapeHTML(item.id)}">${escapeHTML(item.name)}</option>`
+    ).join("")}</optgroup>`
+  ).join("");
+
+  function findLoadoutConflict(candidate, current) {
+    const candidateName = canonicalEnchantmentName(candidate.name);
+    const currentName = canonicalEnchantmentName(current.name);
+    const candidateConflicts = (candidate.conflicts || []).map(canonicalEnchantmentName);
+    const currentConflicts = (current.conflicts || []).map(canonicalEnchantmentName);
+    if (candidateConflicts.includes(currentName) || currentConflicts.includes(candidateName) ||
+        candidateConflicts.includes("tutti gli altri incantesimi") ||
+        currentConflicts.includes("tutti gli altri incantesimi")) {
+      return true;
+    }
+    return INCOMPATIBLE_GROUPS.some((group) => {
+      const names = group.map(canonicalEnchantmentName);
+      return names.includes(candidateName) && names.includes(currentName);
+    });
+  }
+
+  function renderLoadout() {
+    $("#loadout-slots").innerHTML = loadout.length ? loadout.map((slot) => {
+      const item = itemsById.get(slot.itemId);
+      const compatible = data.enchantments.filter((enchantment) => enchantment.applicableTo.includes(slot.itemId));
+      const knownCost = slot.enchantments.reduce((sum, entry) => {
+        const enchantment = data.enchantments.find((candidate) => candidate.id === entry.id);
+        return sum + (typeof enchantment.anvilCost === "number" ? enchantment.anvilCost : 0);
+      }, 0);
+      const unknownCosts = slot.enchantments.filter((entry) => {
+        const enchantment = data.enchantments.find((candidate) => candidate.id === entry.id);
+        return typeof enchantment.anvilCost !== "number";
+      }).length;
+      const costWarning = knownCost >= ANVIL_LIMIT;
+      return `
+        <article class="loadout-slot" data-slot-key="${escapeHTML(slot.key)}">
+          <h3>${icon(item)}${escapeHTML(item.name)}
+            <button class="chip remove-slot" type="button" data-remove-slot aria-label="Rimuovi ${escapeHTML(item.name)} dal loadout">Rimuovi</button>
+          </h3>
+          <div class="loadout-controls">
+            <select data-enchantment aria-label="Scegli un incantesimo per ${escapeHTML(item.name)}">
+              <option value="">Scegli un incantesimo…</option>
+              ${compatible.map((enchantment) => {
+                const alreadyAdded = slot.enchantments.some((entry) => entry.id === enchantment.id);
+                return `<option value="${escapeHTML(enchantment.id)}"${alreadyAdded ? " disabled" : ""}>${escapeHTML(enchantment.name)}${enchantment.category === "custom" ? " · Custom" : ""}${alreadyAdded ? " ✓" : ""}</option>`;
+              }).join("")}
+            </select>
+            <select data-level aria-label="Livello dell’incantesimo" disabled><option value="">Livello</option></select>
+            <button class="chip" type="button" data-add-enchantment>Aggiungi</button>
+          </div>
+          ${slot.enchantments.length ? `<ul class="loadout-enchantments">${slot.enchantments.map((entry) => {
+            const enchantment = data.enchantments.find((candidate) => candidate.id === entry.id);
+            return `<li><span>${escapeHTML(enchantment.name)} ${escapeHTML(ROMAN[entry.level] || entry.level)}</span><button type="button" data-remove-enchantment="${escapeHTML(entry.id)}" aria-label="Rimuovi ${escapeHTML(enchantment.name)}">Rimuovi</button></li>`;
+          }).join("")}</ul>` : '<p class="loadout-cost">Nessun incantesimo aggiunto.</p>'}
+          ${slot.enchantments.length ? `<p class="loadout-cost${costWarning || unknownCosts ? " warning" : ""}">Somma dei costi noti: +${knownCost} livelli${unknownCosts ? ` · ${unknownCosts} costo/i “?”` : ""}${costWarning ? " · raggiunge la soglia di 40: verifica l’ordine delle combinazioni" : ""}</p>` : ""}
+        </article>`;
+    }).join("") : '<div class="loadout-empty">Il loadout è vuoto. Aggiungi un oggetto per iniziare.</div>';
+    $("#loadout-status").textContent = `${loadout.length} ${loadout.length === 1 ? "oggetto" : "oggetti"} nel loadout`;
+  }
+
+  $("#loadout-slots").addEventListener("change", (event) => {
+    if (!event.target.matches("[data-enchantment]")) return;
+    const slotElement = event.target.closest(".loadout-slot");
+    const levelSelect = slotElement.querySelector("[data-level]");
+    const enchantment = data.enchantments.find((entry) => entry.id === event.target.value);
+    levelSelect.innerHTML = enchantment
+      ? Array.from({ length: enchantment.maxLevel }, (_, index) =>
+        `<option value="${index + 1}">${ROMAN[index + 1] || index + 1}</option>`
+      ).join("")
+      : "";
+    levelSelect.disabled = !enchantment;
+  });
+
+  $("#loadout-slots").addEventListener("click", (event) => {
+    const slotElement = event.target.closest(".loadout-slot");
+    if (!slotElement) return;
+    const slot = loadout.find((entry) => entry.key === slotElement.dataset.slotKey);
+    if (event.target.closest("[data-remove-slot]")) {
+      loadout.splice(loadout.indexOf(slot), 1);
+      renderLoadout();
+      return;
+    }
+    const removeButton = event.target.closest("[data-remove-enchantment]");
+    if (removeButton) {
+      slot.enchantments = slot.enchantments.filter((entry) => entry.id !== removeButton.dataset.removeEnchantment);
+      renderLoadout();
+      return;
+    }
+    if (!event.target.closest("[data-add-enchantment]")) return;
+    const select = slotElement.querySelector("[data-enchantment]");
+    const enchantment = data.enchantments.find((entry) => entry.id === select.value);
+    if (!enchantment) {
+      $("#loadout-status").textContent = "Scegli prima un incantesimo.";
+      return;
+    }
+    if (slot.enchantments.some((entry) => entry.id === enchantment.id)) {
+      $("#loadout-status").textContent = `${enchantment.name} è già presente su questo oggetto.`;
+      return;
+    }
+    const conflict = slot.enchantments
+      .map((entry) => data.enchantments.find((candidate) => candidate.id === entry.id))
+      .find((current) => findLoadoutConflict(enchantment, current));
+    if (conflict) {
+      $("#loadout-status").textContent = `${enchantment.name} è incompatibile con ${conflict.name} su questo oggetto.`;
+      return;
+    }
+    const level = Number(slotElement.querySelector("[data-level]").value);
+    if (!Number.isInteger(level) || level < 1 || level > enchantment.maxLevel) {
+      $("#loadout-status").textContent = "Scegli un livello valido per l’incantesimo.";
+      return;
+    }
+    slot.enchantments.push({ id: enchantment.id, level });
+    renderLoadout();
+  });
+
+  $("#loadout-add-item").addEventListener("click", () => {
+    const itemId = $("#loadout-item-select").value;
+    if (!itemsById.has(itemId)) {
+      $("#loadout-status").textContent = "Scegli un oggetto valido.";
+      return;
+    }
+    loadout.push({ key: `slot-${nextSlotId++}`, itemId, enchantments: [] });
+    renderLoadout();
+  });
+
+  $("#loadout-reset").addEventListener("click", () => {
+    loadout.splice(0, loadout.length);
+    renderLoadout();
+  });
+
   $("#groups").addEventListener("click", (event) => {
     const button = event.target.closest(".item");
     if (!button) return;
@@ -155,6 +324,7 @@ function render(data) {
   });
 
   updateList();
+  renderLoadout();
 }
 
 async function start() {
