@@ -329,7 +329,7 @@ function render(data) {
 
 async function start() {
   try {
-    const response = await fetch(DATA_URL);
+    const response = await fetch(DATA_URL, { cache: "no-store" });
     if (!response.ok) throw new Error(`Impossibile caricare ${DATA_URL} (HTTP ${response.status}).`);
     render(validateData(await response.json()));
   } catch (error) {
