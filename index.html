@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Catalogo degli incantesimi vanilla e custom di Litness.">
+  <title>Incantesimi – Litness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="brand-header">
+    <img class="brand-image" src="data/Images/Litnes-enchant-not-official-tool.png" alt="Litness Enchant Not Official Tool">
+  </header>
+  <div class="edge" aria-hidden="true"><i></i><i></i></div>
+
+  <main class="hero">
+    <span class="sq square-one" aria-hidden="true"></span>
+    <span class="sq square-two" aria-hidden="true"></span>
+    <span class="sq square-three" aria-hidden="true"></span>
+
+    <h1>Incantesimi di Litness</h1>
+    <p class="lead">Scegli un oggetto per vedere gli incantesimi applicabili, oppure cerca per nome. Ogni scheda mostra pezzi compatibili, livello massimo e costo incudine.</p>
+
+    <div class="layout">
+      <section class="panel" aria-labelledby="h-items">
+        <h2 id="h-items">Oggetti</h2>
+        <div id="groups"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-ench">
+        <h2 id="h-ench">Incantesimi</h2>
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+          <input id="q" type="search" placeholder="Cerca un incantesimo…" autocomplete="off" aria-label="Cerca un incantesimo">
+        </div>
+        <div class="filters" id="filters" aria-label="Filtra gli incantesimi">
+          <button class="chip" data-filter="all" aria-pressed="true">Tutti</button>
+          <button class="chip" data-filter="vanilla" aria-pressed="false">Vanilla</button>
+          <button class="chip" data-filter="custom" aria-pressed="false">Custom</button>
+        </div>
+        <p class="status" id="status" aria-live="polite"></p>
+        <div class="list" id="list" aria-live="polite"></div>
+      </section>
+    </div>
+    <p class="note">Concept non ufficiale. Gli incantesimi custom sono esempi modificabili nel file JSON. Le texture degli oggetti appartengono a Mojang Studios.</p>
+  </main>
+</body>
+</html>
