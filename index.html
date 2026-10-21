@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
+  <script src="anvil-calculator.js" defer></script>
 </head>
 <body>
   <header class="brand-header">
@@ -47,10 +48,39 @@
       </section>
     </div>
 
+    <section class="panel anvil-calculator" aria-labelledby="h-anvil-calculator" hidden aria-hidden="true">
+      <h2 id="h-anvil-calculator">Calcolatore dell’incudine</h2>
+      <p class="loadout-intro">Inserisci l’oggetto iniziale e i libri che possiedi. Il calcolatore cerca una sequenza di fusioni entro il limite Java di 39 livelli, considerando costi degli incantesimi e lavorazioni precedenti. I libri inseriti possono contenere più incantesimi.</p>
+      <p class="loadout-note">I costi vanilla sono derivati dalle regole Java; per i custom si usa il costo nel catalogo. La storia sconosciuta non va stimata: inserisci il numero di lavorazioni note. Inserisci una sola copia per incantesimo: la fusione di libri duplicati per aumentare un livello, le riparazioni e la ridenominazione non sono simulate. Controlla sempre l’anteprima dell’incudine prima di confermare le operazioni.</p>
+      <div class="anvil-target">
+        <label for="anvil-item">Oggetto iniziale</label>
+        <select id="anvil-item"></select>
+        <label for="anvil-target-works">Lavorazioni pregresse oggetto</label>
+        <input id="anvil-target-works" type="number" min="0" max="5" step="1" inputmode="numeric" placeholder="Obbligatorio">
+      </div>
+      <div class="anvil-existing">
+        <h3>Incantesimi già sull’oggetto</h3>
+        <div class="anvil-enchantment-controls" data-target-controls>
+          <select data-enchantment aria-label="Incantesimo già presente sull’oggetto"></select>
+          <select data-level aria-label="Livello dell’incantesimo già presente"></select>
+          <button class="chip" type="button" data-add-enchantment>Aggiungi</button>
+        </div>
+        <ul class="anvil-enchantments" data-target-enchantments></ul>
+      </div>
+      <div class="anvil-books-header">
+        <h3>Libri da combinare</h3>
+        <button class="chip" id="anvil-add-book" type="button">Aggiungi libro</button>
+      </div>
+      <div class="anvil-books" id="anvil-books"></div>
+      <button class="chip anvil-calculate" id="anvil-calculate" type="button">Calcola sequenza</button>
+      <p class="loadout-status" id="anvil-status" aria-live="polite"></p>
+      <div class="anvil-result" id="anvil-result" aria-live="polite"></div>
+    </section>
+
     <section class="panel loadout" aria-labelledby="h-loadout">
       <h2 id="h-loadout">Prova un loadout</h2>
       <p class="loadout-intro">Componi un equipaggiamento fittizio e prova gli incantesimi sui vari oggetti. In Minecraft Java Sopravvivenza, una singola operazione sull’incudine che costa 40 livelli o più mostra “Troppo costoso!”.</p>
-      <p class="loadout-note">La somma qui sotto usa i costi indicati nelle schede: non replica il calcolo esatto dell’incudine, che dipende dall’ordine delle combinazioni e dai lavori precedenti. I costi “?” non si possono stimare.</p>
+      <p class="loadout-note">Aggiungi gli enchant e usa «Calcola sequenza» nella scheda dell’oggetto: la tabella considera l’oggetto nello slot sinistro e i libri in quello destro, cercando un ordine che resti sotto 40 livelli. Puoi raggruppare enchant sullo stesso libro e indicare le lavorazioni pregresse.</p>
       <div class="loadout-add">
         <label for="loadout-item-select">Aggiungi un oggetto al loadout</label>
         <select id="loadout-item-select"></select>

@@ -735,7 +735,7 @@
       "conflicts": [],
       "unique": false,
       "maxPerItem": null,
-      "anvilCost": "?"
+      "anvilCost": 7
     },
     {
       "id": "adrenaline",
@@ -959,8 +959,8 @@
       "anvilCost": 5
     },
     {
-      "id": "bounty",
-      "name": "Bounty",
+      "id": "bouncy",
+      "name": "Bouncy",
       "category": "custom",
       "description": "Riduce del 100% il danno da caduta e fornisce Salto II permanente.",
       "maxLevel": 2,
@@ -1688,7 +1688,7 @@
       "targetScope": "specific_items",
       "requirements": [],
       "conflicts": [
-        "Bounty"
+        "Bouncy"
       ],
       "unique": false,
       "maxPerItem": null,
