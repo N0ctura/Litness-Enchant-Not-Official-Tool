@@ -2219,7 +2219,7 @@
       "id": "reaper",
       "name": "Reaper",
       "category": "custom",
-      "description": "I bersagli sotto il 14% di vita subiscono il 20% di danni in mischia (vita massima considerata fino a 100).",
+      "description": "I bersagli sotto il 14% di vita subiscono 20x danni in mischia (vita massima considerata fino a 100).",
       "maxLevel": 3,
       "rarity": "Leggendario",
       "applicableTo": [
