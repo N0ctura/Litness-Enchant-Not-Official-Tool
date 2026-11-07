@@ -71,6 +71,7 @@
     const booksContainer = $("#anvil-books");
     const result = $("#anvil-result");
     const status = $("#anvil-status");
+    const calculationVersions = new WeakMap();
 
     itemSelect.innerHTML = `<option value="">Seleziona un oggetto…</option>${data.items.map((item) =>
       `<option value="${escapeHTML(item.id)}">${escapeHTML(item.name)}</option>`
@@ -244,7 +245,15 @@
       list.push(candidate);
     }
 
-    function optimize(books, targetWorkCount) {
+    async function optimize(books, targetWorkCount, isCancelled) {
+      let lastYield = performance.now();
+      async function yieldIfNeeded() {
+        if (performance.now() - lastYield < 16) return false;
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        lastYield = performance.now();
+        return isCancelled();
+      }
+
       const count = books.length;
       const stateCount = 1 << count;
       const fullMask = stateCount - 1;
@@ -308,6 +317,7 @@
                     }
                   }
                 }
+                if (await yieldIfNeeded()) return null;
               }
             }
           }
@@ -353,6 +363,7 @@
                   }
                 }
               }
+              if (await yieldIfNeeded()) return null;
             }
           }
         }
@@ -390,12 +401,12 @@
       return `<span class="anvil-slot-item">${renderAnvilIcon(type, item)}<span>${escapeHTML(slotLabel)}</span></span>`;
     }
 
-    function renderSolution(solution, books) {
+    function renderSolution(solution, books, calculation) {
       const enchantmentNames = (entries) => entries.map((entry) =>
         `${enchantmentsById.get(entry.id).name} ${ROMAN[entry.level] || entry.level}`
       ).join(", ");
-      const targetItem = itemsById.get(model.itemId);
-      let targetContents = model.targetEnchantments.slice();
+      const targetItem = itemsById.get(calculation.itemId);
+      let targetContents = calculation.targetEnchantments.slice();
       let targetVersion = 1;
       const rows = solution.steps.map((step, index) => {
         let left;
@@ -433,7 +444,7 @@
           <td>+${priorPenalty(step.resultWork)}</td>
         </tr>`;
       }).join("");
-      const finalTargetWorks = solution.steps.filter((step) => step.type === "apply").at(-1)?.resultWork ?? model.targetWorks;
+      const finalTargetWorks = solution.steps.filter((step) => step.type === "apply").at(-1)?.resultWork ?? calculation.targetWorks;
       return `<div class="anvil-summary">
         <strong>Sequenza trovata</strong>
         <span>Costo totale: ${solution.total} livelli</span>
@@ -448,81 +459,110 @@
       <p class="loadout-note">Costo di ogni passaggio = costo degli incantesimi trasferiti + penalità dello slot sinistro + penalità dello slot destro. La ricerca confronta gli orientamenti dei libri e le partizioni dei libri da applicare all’oggetto.</p>`;
     }
 
-    function calculate() {
-      result.innerHTML = "";
-      const targetWorkCount = Number(targetWorks.value);
+    async function calculate(input = null, outputResult = result, outputStatus = status) {
+      const calculation = input || {
+        itemId: model.itemId,
+        targetWorks: targetWorks.value,
+        targetEnchantments: model.targetEnchantments,
+        books: model.books
+      };
+      const version = (calculationVersions.get(outputStatus) || 0) + 1;
+      calculationVersions.set(outputStatus, version);
+      const isCurrent = () => calculationVersions.get(outputStatus) === version;
+      const reportStatus = (message, error = false) => {
+        outputStatus.textContent = message;
+        outputStatus.classList.toggle("warning", error);
+      };
+      outputResult.innerHTML = "";
+      const targetWorkCount = Number(calculation.targetWorks);
       if (!Number.isInteger(targetWorkCount) || targetWorkCount < 0 || targetWorkCount > 5) {
-        setStatus("Inserisci il numero noto di lavorazioni dell’oggetto, da 0 a 5.", true);
-        targetWorks.focus();
+        reportStatus("Inserisci il numero noto di lavorazioni dell’oggetto, da 0 a 5.", true);
+        if (!input) targetWorks.focus();
         return;
       }
-      if (!model.itemId) {
-        setStatus("Seleziona l’oggetto da incantare.", true);
+      if (!calculation.itemId) {
+        reportStatus("Seleziona l’oggetto da incantare.", true);
         return;
       }
-      if (!model.books.length) {
-        setStatus("Aggiungi almeno un libro.", true);
+      if (!calculation.books.length) {
+        reportStatus("Aggiungi almeno un libro.", true);
         return;
       }
-      if (model.books.length > MAX_BOOKS) {
-        setStatus(`Il calcolatore supporta al massimo ${MAX_BOOKS} libri per ricerca.`, true);
+      if (calculation.books.length > MAX_BOOKS) {
+        reportStatus(`Il calcolatore supporta al massimo ${MAX_BOOKS} libri per ricerca.`, true);
         return;
       }
-      if (model.books.some((book) => !Number.isInteger(Number(book.works)) ||
+      if (calculation.books.some((book) => !Number.isInteger(Number(book.works)) ||
           Number(book.works) < 0 || Number(book.works) > 5)) {
-        setStatus("Inserisci le lavorazioni note (da 0 a 5) per ogni libro.", true);
+        reportStatus("Inserisci le lavorazioni note (da 0 a 5) per ogni libro.", true);
         return;
       }
-      const enchantmentCount = model.targetEnchantments.length +
-        model.books.reduce((sum, book) => sum + book.enchantments.length, 0);
+      const enchantmentCount = calculation.targetEnchantments.length +
+        calculation.books.reduce((sum, book) => sum + book.enchantments.length, 0);
       if (enchantmentCount > (data.itemLimits?.maxEnchantmentsPerItem || 12)) {
-        setStatus("Il numero totale di incantesimi supera il limite per oggetto.", true);
+        reportStatus("Il numero totale di incantesimi supera il limite per oggetto.", true);
         return;
       }
-      const allEntries = allEnchantments();
+      const allEntries = [
+        ...calculation.targetEnchantments,
+        ...calculation.books.flatMap((book) => book.enchantments)
+      ];
       const uniqueCount = allEntries.filter((entry) => enchantmentsById.get(entry.id).unique).length;
       if (uniqueCount > (data.itemLimits?.maxUniqueEnchantmentsPerItem ?? 1)) {
-        setStatus("Il numero di incantesimi unici supera il limite previsto per l’oggetto.", true);
+        reportStatus("Il numero di incantesimi unici supera il limite previsto per l’oggetto.", true);
         return;
       }
       if (new Set(allEntries.map((entry) => entry.id)).size !== allEntries.length) {
-        setStatus("Lo stesso incantesimo non può essere aggiunto più di una volta nel calcolo.", true);
+        reportStatus("Lo stesso incantesimo non può essere aggiunto più di una volta nel calcolo.", true);
         return;
       }
-      if (model.books.some((book) => !book.enchantments.length)) {
-        setStatus("Aggiungi almeno un incantesimo a ogni libro oppure rimuovi i libri vuoti.", true);
+      if (calculation.books.some((book) => !book.enchantments.length)) {
+        reportStatus("Aggiungi almeno un incantesimo a ogni libro oppure rimuovi i libri vuoti.", true);
         return;
       }
       const unavailable = allEntries.find((entry) =>
         enchantmentCost(enchantmentsById.get(entry.id), entry.level) === null
       );
       if (unavailable) {
-        setStatus(`Costo non disponibile per ${enchantmentsById.get(unavailable.id).name}; il calcolo è stato interrotto.`, true);
+        reportStatus(`Costo non disponibile per ${enchantmentsById.get(unavailable.id).name}; il calcolo è stato interrotto.`, true);
         return;
       }
-      const target = itemsById.get(model.itemId);
-      const inapplicableTarget = model.targetEnchantments.find((entry) =>
+      const target = itemsById.get(calculation.itemId);
+      const inapplicableTarget = calculation.targetEnchantments.find((entry) =>
         !enchantmentsById.get(entry.id).applicableTo.includes(target.id)
       );
       if (inapplicableTarget) {
-        setStatus(`${enchantmentsById.get(inapplicableTarget.id).name} non è applicabile a ${target.name}.`, true);
+        reportStatus(`${enchantmentsById.get(inapplicableTarget.id).name} non è applicabile a ${target.name}.`, true);
         return;
       }
-      const inapplicable = model.books.flatMap((book) => book.enchantments)
+      const inapplicable = calculation.books.flatMap((book) => book.enchantments)
         .find((entry) => !enchantmentsById.get(entry.id).applicableTo.includes(target.id));
       if (inapplicable) {
-        setStatus(`${enchantmentsById.get(inapplicable.id).name} non è applicabile a ${target.name}.`, true);
+        reportStatus(`${enchantmentsById.get(inapplicable.id).name} non è applicabile a ${target.name}.`, true);
         return;
       }
-      const books = model.books.map((book) => ({ ...book, works: Number(book.works) }));
-      setStatus("Ricerca della sequenza…");
-      const solution = optimize(books, targetWorkCount);
-      if (!solution) {
-        setStatus("Nessuna sequenza valida trovata entro il limite di 39 livelli. Verifica dati, compatibilità e lavorazioni pregresse.", true);
-        return;
+      const books = calculation.books.map((book) => ({ ...book, works: Number(book.works) }));
+      const renderContext = {
+        itemId: calculation.itemId,
+        targetWorks: targetWorkCount,
+        targetEnchantments: calculation.targetEnchantments.map((entry) => ({ ...entry }))
+      };
+      reportStatus("Ricerca della sequenza…");
+      let solution;
+      try {
+        solution = await optimize(books, targetWorkCount, () => !isCurrent());
+        if (!isCurrent()) return;
+        if (!solution) {
+          reportStatus("Nessuna sequenza valida trovata entro il limite di 39 livelli. Verifica dati, compatibilità e lavorazioni pregresse.", true);
+          return;
+        }
+        outputResult.innerHTML = renderSolution(solution, books, renderContext);
+        reportStatus("Sequenza calcolata. Verifica ogni costo nell’anteprima dell’incudine prima di confermare.");
+      } catch (error) {
+        if (!isCurrent()) return;
+        console.error("Errore nel calcolo della sequenza:", error);
+        reportStatus(`Errore nel calcolo della sequenza: ${error.message}`, true);
       }
-      result.innerHTML = renderSolution(solution, books);
-      setStatus("Sequenza calcolata. Verifica ogni costo nell’anteprima dell’incudine prima di confermare.");
     }
 
     itemSelect.addEventListener("change", () => {
@@ -596,23 +636,16 @@
     });
     document.addEventListener("calculate-loadout", (event) => {
       const { slot, status: slotStatus, result: slotResult } = event.detail;
-      model.itemId = slot.itemId;
-      model.targetWorks = String(slot.targetWorks);
-      model.targetEnchantments = slot.targetEnchantments.map((entry) => ({ ...entry }));
-      model.books = slot.books.map((book) => ({
-        key: book.key,
-        works: String(book.works),
-        enchantments: book.enchantments.map((entry) => ({ id: entry.id, level: entry.level }))
-      }));
-      itemSelect.value = slot.itemId;
-      targetWorks.value = model.targetWorks;
-      result.innerHTML = "";
-      setStatus("");
-      render();
-      calculate();
-      slotStatus.textContent = status.textContent;
-      slotStatus.classList.toggle("warning", status.classList.contains("warning"));
-      slotResult.innerHTML = result.innerHTML;
+      void calculate({
+        itemId: slot.itemId,
+        targetWorks: slot.targetWorks,
+        targetEnchantments: slot.targetEnchantments.map((entry) => ({ ...entry })),
+        books: slot.books.map((book) => ({
+          key: book.key,
+          works: String(book.works),
+          enchantments: book.enchantments.map((entry) => ({ id: entry.id, level: entry.level }))
+        }))
+      }, slotResult, slotStatus);
     });
     render();
   }
