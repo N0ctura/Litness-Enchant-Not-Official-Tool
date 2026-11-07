@@ -139,7 +139,7 @@
         "helmet"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "bane_of_arthropods",
@@ -153,7 +153,7 @@
         "mace"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "binding_curse",
@@ -169,7 +169,7 @@
         "elytra"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "blast_protection",
@@ -184,7 +184,7 @@
         "boots"
       ],
       "targetScope": "armor_set",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "breach",
@@ -196,7 +196,7 @@
         "mace"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "channeling",
@@ -208,7 +208,7 @@
         "trident"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "density",
@@ -220,7 +220,7 @@
         "mace"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "depth_strider",
@@ -232,7 +232,7 @@
         "boots"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "efficiency",
@@ -248,7 +248,7 @@
         "shears"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "feather_falling",
@@ -260,7 +260,7 @@
         "boots"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "fire_aspect",
@@ -273,7 +273,7 @@
         "mace"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "fire_protection",
@@ -288,7 +288,7 @@
         "boots"
       ],
       "targetScope": "armor_set",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "flame",
@@ -300,7 +300,7 @@
         "bow"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "fortune",
@@ -315,7 +315,7 @@
         "axe"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "frost_walker",
@@ -327,7 +327,7 @@
         "boots"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "impaling",
@@ -339,7 +339,7 @@
         "trident"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "infinity",
@@ -351,7 +351,7 @@
         "bow"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "knockback",
@@ -363,7 +363,7 @@
         "sword"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "looting",
@@ -375,7 +375,7 @@
         "sword"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "loyalty",
@@ -387,7 +387,7 @@
         "trident"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "luck_of_the_sea",
@@ -399,7 +399,7 @@
         "rod"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "lure",
@@ -411,7 +411,7 @@
         "rod"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "mending",
@@ -440,7 +440,7 @@
         "shield"
       ],
       "targetScope": "all_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "multishot",
@@ -452,7 +452,7 @@
         "xbow"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "piercing",
@@ -464,7 +464,7 @@
         "xbow"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "power",
@@ -476,7 +476,7 @@
         "bow"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "projectile_protection",
@@ -491,7 +491,7 @@
         "boots"
       ],
       "targetScope": "armor_set",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "protection",
@@ -506,7 +506,7 @@
         "boots"
       ],
       "targetScope": "armor_set",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "punch",
@@ -518,7 +518,7 @@
         "bow"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "quick_charge",
@@ -530,7 +530,7 @@
         "xbow"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "respiration",
@@ -542,7 +542,7 @@
         "helmet"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "riptide",
@@ -554,7 +554,7 @@
         "trident"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "sharpness",
@@ -567,7 +567,7 @@
         "axe"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "silk_touch",
@@ -582,7 +582,7 @@
         "axe"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "smite",
@@ -596,7 +596,7 @@
         "mace"
       ],
       "targetScope": "multiple_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "soul_speed",
@@ -608,7 +608,7 @@
         "boots"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "sweeping_edge",
@@ -620,7 +620,7 @@
         "sword"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 2
     },
     {
       "id": "swift_sneak",
@@ -632,7 +632,7 @@
         "legs"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "thorns",
@@ -647,7 +647,7 @@
         "boots"
       ],
       "targetScope": "armor_set",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "unbreaking",
@@ -676,7 +676,7 @@
         "shield"
       ],
       "targetScope": "all_items",
-      "anvilCost": "?"
+      "anvilCost": 1
     },
     {
       "id": "vanishing_curse",
@@ -705,7 +705,7 @@
         "shield"
       ],
       "targetScope": "all_items",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "wind_burst",
@@ -717,7 +717,7 @@
         "mace"
       ],
       "targetScope": "specific_items",
-      "anvilCost": "?"
+      "anvilCost": 4
     },
     {
       "id": "abrasion",

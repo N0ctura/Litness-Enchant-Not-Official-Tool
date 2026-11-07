@@ -77,6 +77,42 @@
       <div class="anvil-result" id="anvil-result" aria-live="polite"></div>
     </section>
 
+    <section class="panel custom-book-panel" aria-labelledby="h-custom-book">
+      <h2 id="h-custom-book">Libro custom</h2>
+      <p class="loadout-intro">Qui puoi aggiungere libri che nel tool non sono presenti, ad esempio Sharpness V. inserisci il nome, il valore in xp del libro e dagli una emoji, successivamente lo troverai disponibile nella lista qui sotto per sperimentare con i tuoi lodaut!!</p>
+      <div class="custom-book-form">
+        <label>Nome libro
+          <input id="custom-book-name" type="text" maxlength="40" placeholder="Es. Libro del Re dei cieli" aria-label="Nome del libro custom">
+        </label>
+        <label>Oggetto compatibile
+          <select id="custom-book-item" aria-label="Oggetto compatibile del libro custom"></select>
+        </label>
+        <label>Emoji
+          <select id="custom-book-emoji" aria-label="Emoji del libro custom">
+            <option value="📘">📘 Libro</option>
+            <option value="🧪">🧪 Pozione</option>
+            <option value="✨">✨ Stella</option>
+            <option value="⚔️">⚔️ Spada</option>
+            <option value="🛡️">🛡️ Scudo</option>
+            <option value="🌙">🌙 Luna</option>
+            <option value="☀️">☀️ Sole</option>
+            <option value="💎">💎 Gemma</option>
+            <option value="🧿">🧿 Totem</option>
+            <option value="🔥">🔥 Fuoco</option>
+            <option value="❄️">❄️ Ghiaccio</option>
+            <option value="🌊">🌊 Mare</option>
+            <option value="🦅">🦅 Aquila</option>
+            <option value="🪄">🪄 Bacchetta</option>
+          </select>
+        </label>
+        <label>Costo in livelli
+          <input id="custom-book-cost" type="number" min="0" max="99" step="1" value="5" inputmode="numeric" aria-label="Costo in livelli del libro custom">
+        </label>
+        <button class="chip" id="custom-book-add" type="button">Salva libro</button>
+      </div>
+      <ul id="custom-book-list" class="custom-book-list" aria-live="polite"></ul>
+    </section>
+
     <section class="panel loadout" aria-labelledby="h-loadout">
       <h2 id="h-loadout">Prova un loadout</h2>
       <p class="loadout-intro">Componi un equipaggiamento fittizio e prova gli incantesimi sui vari oggetti. In Minecraft Java Sopravvivenza, una singola operazione sull’incudine che costa 40 livelli o più mostra “Troppo costoso!”.</p>

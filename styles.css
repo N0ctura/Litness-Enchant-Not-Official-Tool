@@ -78,6 +78,19 @@ h1, h2, h3 { font-family: Fredoka, Nunito, sans-serif; }
 .panel h2 .mc, .panel h2 .fb { width: 32px; height: 32px; }
 .panel h2 .fb { font-size: 24px; line-height: 32px; }
 
+.custom-book-panel { max-width: 1180px; margin: 30px auto 0; }
+.custom-book-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: end; }
+.custom-book-form label { display: flex; flex-direction: column; gap: 6px; color: var(--muted); font: 800 13px Nunito, sans-serif; }
+.custom-book-form input, .custom-book-form select { width: 100%; padding: 10px 12px; border: 2px solid var(--frame); background: var(--cream); color: var(--dark); font: 800 14px Nunito, sans-serif; }
+.custom-book-form .chip { align-self: stretch; padding-inline: 18px; }
+.custom-book-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+.custom-book-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 2px solid var(--gold); background: rgba(196, 141, 46, 0.12); }
+.custom-book-item strong { display: block; font-size: 15px; }
+.custom-book-item small { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
+.custom-book-emoji { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: 50%; background: var(--slot); font-size: 24px; }
+.custom-book-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.custom-book-actions .chip { padding: 6px 10px; border-radius: 6px; }
+
 .loadout { max-width: 1180px; margin: 30px auto 0; }
 .loadout-intro, .loadout-note { margin: 0 0 10px; color: var(--muted); }
 .loadout-note { font-size: 13px; }
@@ -93,6 +106,7 @@ h1, h2, h3 { font-family: Fredoka, Nunito, sans-serif; }
 .loadout-slot h3 .mc, .loadout-slot h3 .fb { width: 28px; height: 28px; }
 .loadout-controls { display: flex; flex-wrap: wrap; gap: 8px; }
 .loadout-controls select { flex: 1 1 150px; min-width: 0; }
+.loadout-controls [data-enchantment] option.custom-book-option { color: var(--orange-d); }
 .loadout-controls .chip { padding: 8px 12px; }
 .loadout-enchantments { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
 .loadout-enchantments li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px; border: 1px solid var(--frame); color: var(--title); font-size: 13px; }

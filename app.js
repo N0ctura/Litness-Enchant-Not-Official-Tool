@@ -130,6 +130,125 @@ function render(data) {
   let selectedItemId = null;
   let categoryFilter = "all";
   let query = "";
+  const STORAGE_KEY = "litness-custom-books";
+  const customBooks = [];
+
+  function saveCustomBooks() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(customBooks.map((book) => ({
+      id: book.id,
+      name: book.name,
+      emoji: book.emoji,
+      applicableTo: book.applicableTo,
+      anvilCost: book.anvilCost,
+      customBook: true
+    }))));
+  }
+
+  function loadCustomBooks() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return;
+      customBooks.splice(0, customBooks.length, ...parsed.map((book) => ({
+        id: book.id,
+        name: book.name,
+        emoji: book.emoji || "📘",
+        description: "Libro creato dall’utente per un server in evoluzione.",
+        category: "custom",
+        rarity: "Personalizzato",
+        conflicts: [],
+        requirements: [],
+        unique: false,
+        maxLevel: 1,
+        applicableTo: Array.isArray(book.applicableTo) && book.applicableTo.length ? book.applicableTo : ["sword"],
+        targetScope: "specific_items",
+        anvilCost: Number(book.anvilCost) || 0,
+        customBook: true
+      })));
+      customBooks.forEach((book) => data.enchantments.push(book));
+    } catch (error) {
+      console.warn("Impossibile leggere i libri custom salvati:", error);
+    }
+  }
+
+  function renderCustomBooks() {
+    const customList = $("#custom-book-list");
+    if (!customList) return;
+    customList.innerHTML = customBooks.length ? customBooks.map((book) => {
+      const compatibleItem = itemsById.get(book.applicableTo[0]);
+      return `
+        <li class="custom-book-item">
+          <div class="custom-book-emoji" aria-hidden="true">${escapeHTML(book.emoji || "📘")}</div>
+          <div>
+            <strong>${escapeHTML(book.name)}</strong>
+            <small>${icon(compatibleItem)} ${escapeHTML(compatibleItem.name)} · +${escapeHTML(book.anvilCost)} livelli</small>
+          </div>
+          <div class="custom-book-actions">
+            <button class="chip" type="button" data-add-custom-book="${escapeHTML(book.id)}">Aggiungi</button>
+            <button class="chip reset" type="button" data-remove-custom-book="${escapeHTML(book.id)}">Rimuovi</button>
+          </div>
+        </li>
+      `;
+    }).join("") : '<li class="empty">Nessun libro custom ancora creato.</li>';
+  }
+
+  function createCustomBookEntry(name, itemId, emoji, cost) {
+    const safeName = name.trim();
+    if (!safeName) throw new Error("Inserisci un nome valido per il libro.");
+    const parsedCost = Number(cost);
+    if (!Number.isFinite(parsedCost) || parsedCost < 0 || parsedCost > 99) {
+      throw new Error("Il costo in livelli deve essere un numero compreso tra 0 e 99.");
+    }
+    const book = {
+      id: `custom-book-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      name: safeName,
+      emoji: emoji.trim() || "📘",
+      description: "Libro creato dall’utente per un server in evoluzione.",
+      category: "custom",
+      rarity: "Personalizzato",
+      conflicts: [],
+      requirements: [],
+      unique: false,
+      maxLevel: 1,
+      applicableTo: [itemId],
+      targetScope: "specific_items",
+      anvilCost: parsedCost,
+      customBook: true
+    };
+    data.enchantments.push(book);
+    customBooks.push(book);
+    saveCustomBooks();
+    renderCustomBooks();
+    updateList();
+    renderLoadout();
+    return book;
+  }
+
+  function addCustomBookToLoadout(bookId) {
+    const book = data.enchantments.find((entry) => entry.id === bookId && entry.customBook);
+    if (!book) return;
+    const targetItemId = book.applicableTo[0];
+    let slot = loadout.find((entry) => entry.itemId === targetItemId);
+    if (!slot) {
+      slot = { key: `slot-${nextSlotId++}`, itemId: targetItemId, enchantments: [], books: [], targetEnchantments: [], targetWorks: "" };
+      loadout.push(slot);
+    }
+    const existingBook = slot.books.find((entry) => entry.customBookId === book.id);
+    if (existingBook) {
+      return;
+    }
+    const newBook = {
+      key: `loadout-book-${nextSlotId++}`,
+      works: "0",
+      enchantments: [{ id: book.id, level: 1 }],
+      customBookId: book.id
+    };
+    slot.books.push(newBook);
+    slot.enchantments.push({ id: book.id, level: 1, bookKey: newBook.key, customBookId: book.id });
+    saveLoadout();
+    renderLoadout();
+  }
 
   function updateList() {
     const results = data.enchantments.filter((enchantment) =>
@@ -168,8 +287,92 @@ function render(data) {
     key: `slot-${index}`, itemId, enchantments: [], books: [], targetEnchantments: [], targetWorks: ""
   }));
   let nextSlotId = loadout.length;
+  const LOADOUT_STORAGE_KEY = "litness-loadout";
+
+  function saveLoadout() {
+    try {
+      localStorage.setItem(LOADOUT_STORAGE_KEY, JSON.stringify(loadout));
+    } catch (error) {
+      console.error("Impossibile salvare il loadout:", error);
+      $("#loadout-status").textContent = "Impossibile salvare il loadout in questo browser.";
+    }
+  }
+
+  function loadLoadout() {
+    try {
+      const saved = localStorage.getItem(LOADOUT_STORAGE_KEY);
+      if (saved === null) return;
+      const parsed = JSON.parse(saved);
+      if (!Array.isArray(parsed)) throw new Error("Il loadout salvato non è una lista.");
+
+      const restored = parsed.map((slot) => {
+        if (!slot || typeof slot.key !== "string" || !itemsById.has(slot.itemId) ||
+            !Array.isArray(slot.targetEnchantments) || !Array.isArray(slot.books)) {
+          throw new Error("Uno slot del loadout salvato non è valido.");
+        }
+        const targetEnchantments = slot.targetEnchantments.map((entry) => {
+          const enchantment = data.enchantments.find((candidate) => candidate.id === entry.id);
+          if (!enchantment || !enchantment.applicableTo.includes(slot.itemId) ||
+              !Number.isInteger(entry.level) || entry.level < 1 || entry.level > enchantment.maxLevel) {
+            throw new Error("Un incantesimo salvato nel loadout non è più valido.");
+          }
+          return { id: entry.id, level: entry.level };
+        });
+        const books = slot.books.map((book) => {
+          if (!book || typeof book.key !== "string" || !Array.isArray(book.enchantments) ||
+              (book.customBookId && !customBooks.some((customBook) => customBook.id === book.customBookId))) {
+            throw new Error("Un libro salvato nel loadout non è più valido.");
+          }
+          const enchantments = book.enchantments.map((entry) => {
+            const enchantment = data.enchantments.find((candidate) => candidate.id === entry.id);
+            if (!enchantment || !enchantment.applicableTo.includes(slot.itemId) ||
+                !Number.isInteger(entry.level) || entry.level < 1 || entry.level > enchantment.maxLevel) {
+              throw new Error("Un incantesimo salvato in un libro non è più valido.");
+            }
+            return { id: entry.id, level: entry.level };
+          });
+          return {
+            key: book.key,
+            works: String(book.works ?? "0"),
+            enchantments,
+            ...(book.customBookId ? { customBookId: book.customBookId } : {})
+          };
+        });
+        const allEntries = [...targetEnchantments, ...books.flatMap((book) => book.enchantments)];
+        if (allEntries.length > 12 || new Set(allEntries.map((entry) => entry.id)).size !== allEntries.length) {
+          throw new Error("Il loadout salvato contiene incantesimi duplicati o supera il limite consentito.");
+        }
+        return {
+          key: slot.key,
+          itemId: slot.itemId,
+          targetWorks: String(slot.targetWorks ?? ""),
+          targetEnchantments,
+          books,
+          enchantments: books.flatMap((book) => book.enchantments.map((entry) => ({
+            ...entry,
+            bookKey: book.key,
+            ...(book.customBookId ? { customBookId: book.customBookId } : {})
+          })))
+        };
+      });
+
+      loadout.splice(0, loadout.length, ...restored);
+      const savedIds = restored.flatMap((slot) => [slot.key, ...slot.books.map((book) => book.key)])
+        .map((key) => Number(key.match(/\d+$/)?.[0]))
+        .filter(Number.isFinite);
+      nextSlotId = Math.max(loadout.length, ...savedIds.map((id) => id + 1));
+    } catch (error) {
+      console.error("Impossibile ripristinare il loadout salvato:", error);
+      $("#loadout-status").textContent = "Il loadout salvato non è valido e non è stato ripristinato.";
+    }
+  }
 
   $("#loadout-item-select").innerHTML = [...groups].map(([groupName, items]) =>
+    `<optgroup label="${escapeHTML(groupName)}">${items.map((item) =>
+      `<option value="${escapeHTML(item.id)}">${escapeHTML(item.name)}</option>`
+    ).join("")}</optgroup>`
+  ).join("");
+  $("#custom-book-item").innerHTML = [...groups].map(([groupName, items]) =>
     `<optgroup label="${escapeHTML(groupName)}">${items.map((item) =>
       `<option value="${escapeHTML(item.id)}">${escapeHTML(item.name)}</option>`
     ).join("")}</optgroup>`
@@ -229,7 +432,7 @@ function render(data) {
           <div class="loadout-controls">
             <select data-enchantment aria-label="Scegli un incantesimo per ${escapeHTML(item.name)}">
               <option value="">Scegli un incantesimo…</option>
-              ${available.map((enchantment) => `<option value="${escapeHTML(enchantment.id)}">${escapeHTML(enchantment.name)}${enchantment.category === "custom" ? " · Custom" : ""}</option>`).join("")}
+              ${available.map((enchantment) => `<option value="${escapeHTML(enchantment.id)}"${enchantment.customBook ? ' class="custom-book-option"' : ""}>${escapeHTML(enchantment.name)}${enchantment.category === "custom" ? " · Custom" : ""}</option>`).join("")}
             </select>
             <select data-level aria-label="Livello dell’incantesimo" disabled><option value="">Livello</option></select>
             <select data-book-group aria-label="Libro a cui aggiungere l’incantesimo">
@@ -264,12 +467,16 @@ function render(data) {
     if (event.target.matches("[data-target-works]")) {
       const slot = loadout.find((entry) => entry.key === slotElement.dataset.slotKey);
       slot.targetWorks = event.target.value;
+      saveLoadout();
       return;
     }
     if (event.target.matches("[data-book-works]")) {
       const slot = loadout.find((entry) => entry.key === slotElement.dataset.slotKey);
       const book = slot.books.find((entry) => entry.key === event.target.closest("[data-book-key]").dataset.bookKey);
-      if (book) book.works = event.target.value;
+      if (book) {
+        book.works = event.target.value;
+        saveLoadout();
+      }
       return;
     }
     if (!event.target.matches("[data-enchantment], [data-base-enchantment]")) return;
@@ -291,12 +498,14 @@ function render(data) {
     const slot = loadout.find((entry) => entry.key === slotElement.dataset.slotKey);
     if (event.target.closest("[data-remove-slot]")) {
       loadout.splice(loadout.indexOf(slot), 1);
+      saveLoadout();
       renderLoadout();
       return;
     }
     const removeBase = event.target.closest("[data-remove-base-enchantment]");
     if (removeBase) {
       slot.targetEnchantments = slot.targetEnchantments.filter((entry) => entry.id !== removeBase.dataset.removeBaseEnchantment);
+      saveLoadout();
       renderLoadout();
       return;
     }
@@ -306,7 +515,10 @@ function render(data) {
       const removed = slot.books.find((book) => book.key === key);
       slot.enchantments = slot.enchantments.filter((entry) => entry.bookKey !== key);
       slot.books = slot.books.filter((book) => book.key !== key);
-      if (removed) renderLoadout();
+      if (removed) {
+        saveLoadout();
+        renderLoadout();
+      }
       return;
     }
     const removeButton = event.target.closest("[data-remove-enchantment]");
@@ -316,6 +528,7 @@ function render(data) {
         book.enchantments = book.enchantments.filter((entry) => entry.id !== removeButton.dataset.removeEnchantment);
       });
       slot.books = slot.books.filter((book) => book.enchantments.length);
+      saveLoadout();
       renderLoadout();
       return;
     }
@@ -339,6 +552,7 @@ function render(data) {
         return;
       }
       slot.targetEnchantments.push({ id: enchantment.id, level });
+      saveLoadout();
       renderLoadout();
       return;
     }
@@ -397,6 +611,7 @@ function render(data) {
     const bookEntry = { id: enchantment.id, level };
     book.enchantments.push(bookEntry);
     slot.enchantments.push({ ...bookEntry, bookKey: book.key });
+    saveLoadout();
     renderLoadout();
   });
 
@@ -414,12 +629,55 @@ function render(data) {
       targetEnchantments: [],
       targetWorks: ""
     });
+    saveLoadout();
     renderLoadout();
   });
 
   $("#loadout-reset").addEventListener("click", () => {
     loadout.splice(0, loadout.length);
+    saveLoadout();
     renderLoadout();
+  });
+
+  $("#custom-book-add").addEventListener("click", () => {
+    const nameField = $("#custom-book-name");
+    const itemField = $("#custom-book-item");
+    const emojiField = $("#custom-book-emoji");
+    const costField = $("#custom-book-cost");
+    try {
+      createCustomBookEntry(nameField.value, itemField.value, emojiField.value, costField.value);
+      nameField.value = "";
+      emojiField.value = "📘";
+      costField.value = "5";
+      $("#loadout-status").textContent = "Libro custom salvato. È ora disponibile nel loadout.";
+    } catch (error) {
+      $("#loadout-status").textContent = error.message;
+    }
+  });
+
+  $("#custom-book-list").addEventListener("click", (event) => {
+    const addButton = event.target.closest("[data-add-custom-book]");
+    if (addButton) {
+      addCustomBookToLoadout(addButton.dataset.addCustomBook);
+      return;
+    }
+    const removeButton = event.target.closest("[data-remove-custom-book]");
+    if (!removeButton) return;
+    const customBookId = removeButton.dataset.removeCustomBook;
+    const index = customBooks.findIndex((book) => book.id === customBookId);
+    if (index !== -1) {
+      customBooks.splice(index, 1);
+      data.enchantments = data.enchantments.filter((entry) => entry.id !== customBookId);
+      loadout.forEach((slot) => {
+        slot.books = slot.books.filter((book) => book.customBookId !== customBookId);
+        slot.enchantments = slot.enchantments.filter((entry) => entry.id !== customBookId);
+      });
+      saveCustomBooks();
+      saveLoadout();
+      renderCustomBooks();
+      updateList();
+      renderLoadout();
+    }
   });
 
   $("#groups").addEventListener("click", (event) => {
@@ -447,6 +705,9 @@ function render(data) {
     updateList();
   });
 
+  loadCustomBooks();
+  loadLoadout();
+  renderCustomBooks();
   updateList();
   renderLoadout();
 }
