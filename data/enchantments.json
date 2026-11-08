@@ -654,7 +654,7 @@
       "name": "Indistruttibilità",
       "category": "vanilla",
       "description": "Riduce la probabilità che l'oggetto perda durabilità quando viene usato.",
-      "maxLevel": 3,
+      "maxLevel": 5,
       "applicableTo": [
         "helmet",
         "chest",
