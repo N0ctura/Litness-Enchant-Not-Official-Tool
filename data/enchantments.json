@@ -239,7 +239,7 @@
       "name": "Efficienza",
       "category": "vanilla",
       "description": "Aumenta la velocità di estrazione e di alcune azioni degli attrezzi.",
-      "maxLevel": 5,
+      "maxLevel": 6,
       "applicableTo": [
         "pick",
         "shovel",
